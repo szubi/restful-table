@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
-import { makeHeaders, getNextId, makeInsertRow, adjustDataToTable, allowForAction, rowEmpty, clearInsertRow, validURL } from '../utils/Utils';
+import { makeHeaders, getNextId, makeInsertRow, adjustDataToTable, allowForAction, rowEmpty, clearInsertRow, validURL, setSortBy, sortBy } from '../utils/Utils';
 
 export const DataContext = React.createContext();
 
-function DataProvider({ propsFetchUrl, propsCreateUrl, propsUpdateUrl, propsData, propsHeaders, propsAllowCreate, propsAllowEdit, children }) {
+function DataProvider({ propsFetchUrl, propsCreateUrl, propsUpdateUrl, propsData, propsHeaders, propsAllowCreate, propsAllowEdit, propsSortBy, children }) {
     const headers = makeHeaders(propsHeaders);
     const [data, setData] = useState(adjustDataToTable(propsData, headers));
 
@@ -16,19 +16,33 @@ function DataProvider({ propsFetchUrl, propsCreateUrl, propsUpdateUrl, propsData
     const allowCreate = allowForAction(propsAllowCreate);
     const allowEdit = allowForAction(propsAllowEdit);
 
-    
     const createUrl = validURL(propsCreateUrl);
     const updateUrl = validURL(propsUpdateUrl);
 
-    useEffect(function() {
+    const sortByElement = setSortBy(propsSortBy);
+
+    useEffect(function () {
+        headers.map(header => {
+            if (header.fetchUrl && header.type === 'multi-select') {
+                axios.get(header.fetchUrl)
+                    .then(function(response) {
+                        if (response && response.status === 200) {
+                            if (response.data.length > 0) {
+                                header.values = response.data;
+                            }
+                        }
+                    });
+            }
+        })
+
         const fetchUrl = validURL(propsFetchUrl);
 
         if (fetchUrl) {
             axios.get(fetchUrl)
-                .then(response => {
+                .then(function(response) {
                     if (response && response.status === 200) {
                         if (response.data.length > 0) {
-                            setData(adjustDataToTable(response.data, headers));
+                            setData(sortBy(sortByElement, headers, adjustDataToTable(response.data, headers)));
                         }
                     }
                 });
@@ -48,12 +62,12 @@ function DataProvider({ propsFetchUrl, propsCreateUrl, propsUpdateUrl, propsData
                 .then(function (response) {
                     if (response.status === 200) {
                         d.push(response.data);
-                        setData(d);
+                        setData(sortBy(sortByElement, headers, d));
                     }
                 });
         } else {
             d.push(Object.assign({}, id, iRow));
-            setData(d);
+            setData(sortBy(sortByElement, headers, d));
         }
     }
 
@@ -70,12 +84,12 @@ function DataProvider({ propsFetchUrl, propsCreateUrl, propsUpdateUrl, propsData
                 .then(response => {
                     if (response.status === 200) {
                         d[id] = response.data;
-                        setData(d);
+                        setData(sortBy(sortByElement, headers, d));
                     }
                 });
         } else {
             d[id] = uRow;
-            setData(d);
+            setData(sortBy(sortByElement, headers, d));
         }
     }
 

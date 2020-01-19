@@ -17,6 +17,7 @@ function Table(props) {
                 propsHeaders={props.headers}
                 propsAllowCreate={props.allowCreate}
                 propsAllowEdit={props.allowEdit}
+                propsSortBy={props.sortBy}
             >
 
                 <Header />

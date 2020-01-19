@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import EditField from './EditField';
 
-function EditCell({ rowId, column, value, type }) {
+function EditCell({ rowId, column, value, type, headerValues }) {
     return (
         <td>
             <EditField
@@ -10,6 +10,7 @@ function EditCell({ rowId, column, value, type }) {
                 column={column}
                 value={value}
                 type={type}
+                headerValues={headerValues}
             />
         </td>
     );

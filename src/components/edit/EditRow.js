@@ -19,6 +19,7 @@ function EditRow({ row }) {
                                 column={column}
                                 value={row[column]}
                                 type={header.type}
+                                headerValues={header.values}
                             />
                             :
                             <td>{row[column]}</td>

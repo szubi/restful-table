@@ -3,20 +3,13 @@ import PropTypes from 'prop-types';
 import { DataContext } from '../../context/DataContext';
 import Multiselect from 'react-widgets/lib/Multiselect';
 
-const colors = [
-    { id: 0, name: 'orange' },
-    { id: 1, name: 'purple' },
-    { id: 2, name: 'red' },
-    { id: 3, name: 'blue' },
-];
-
-function AddField({ type, column }) {
+function AddField({ type, column, headerValues }) {
     const { insertRow, handleInsertCellSelectChange, handleInsertCellTextChange } = useContext(DataContext);
 
     switch (type) {
         case 'multi-select':
             return <Multiselect
-                data={colors}
+                data={headerValues}
                 valueField='id'
                 textField='name'
                 onChange={e => handleInsertCellSelectChange(e, column)}

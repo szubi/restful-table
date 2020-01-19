@@ -97,7 +97,12 @@ export function allowForAction(action) {
 
 export function rowEmpty(row) {
     for (const key in row) {
-        if (row[key] !== '' && key !== 'id') {
+
+        if (row[key] instanceof Array) {
+            if (row[key].length > 0) {
+                return false;
+            }
+        } else if (row[key] !== '' && key !== 'id' && row[key]) {
             return false;
         }
     }
@@ -135,4 +140,30 @@ export function from(value, type) {
     }
 
     return values;
+}
+
+export function setSortBy(sortBy) {
+    if (typeof sortBy === 'string') {
+        return sortBy
+    }
+
+    return null
+}
+
+export function sortBy(sortBy, headers, data) {
+    if (!sortBy) {
+        return data;
+    }
+
+    const findKey = headers.find(header => header.id === sortBy);
+    if (!findKey) {
+        return data;
+    }
+
+    return data.sort(function(first, second) {
+        if (!first[sortBy] || !second[sortBy]) {
+            return 1
+        }
+        return (first[sortBy]).localeCompare(second[sortBy]);
+    });
 }

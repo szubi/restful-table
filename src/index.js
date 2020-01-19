@@ -30,6 +30,7 @@ const headers = [
         id: 'colors',
         header: 'Field color',
         type: 'multi-select',
+        fetchUrl: 'http://localhost:8080/colors',
     }
 ];
 
@@ -62,7 +63,7 @@ ReactDOM.render(
         data={data}
         allowCreate={true}
         allowEdit={true}
-        // sortBy={null} dodac
+        sortBy="title"
     />,
     document.getElementById('root')
 );

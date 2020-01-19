@@ -18,6 +18,7 @@ function AddRow() {
                                 <AddCell
                                     column={header.id}
                                     type={header.type}
+                                    headerValues={header.values}
                                 />
                                 :
                                 <td></td>
