@@ -129,7 +129,7 @@ export function from(value, type) {
         if (Array.isArray(value)) {
 
             // sprawdzić czy value zawiera się w liście obiektów z select
-            values = value.map(function(v) {
+            values = value.map(function (v) {
                 return v.name;
             }).join(", ");
         } else {
@@ -160,7 +160,7 @@ export function sortBy(sortBy, headers, data) {
         return data;
     }
 
-    return data.sort(function(first, second) {
+    return data.sort(function (first, second) {
         if (!first[sortBy] || !second[sortBy]) {
             return 1
         }
