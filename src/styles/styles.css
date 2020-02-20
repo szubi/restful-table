@@ -1,0 +1,17 @@
+div.rw-multiselect .rw-widget-input, div.rw-multiselect .rw-widget-input, div.rw-multiselect .rw-list {
+    font-size: 14px;
+}
+
+div.rw-multiselect .rw-widget-input, div.rw-multiselect .rw-widget-input {
+    height: 1.8em;
+}
+
+div.rw-multiselect .rw-multiselect-tag {
+    margin-left: 4px;
+    margin-bottom: 4px;
+    margin-top: -4px;
+}
+
+div.rw-multiselect .rw-multiselect-tag:not(:first-child) {
+    margin-left: 6px;
+}

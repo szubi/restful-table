@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Table from './components/Table';
-import '../src/styles/styles.scss';
+import 'react-widgets/dist/css/react-widgets.css';
+import '../src/styles/styles.css';
 
 const fetchUrl = "http://localhost:8080/books";
 const createUrl = "http://localhost:8080/book";
